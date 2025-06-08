@@ -1,0 +1,113 @@
+<html>
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Добавление товара</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="main.js" ></script>
+</head>
+<body>
+    <div class="btn-up btn-up_hide"></div>
+
+  <script>
+    const btnUp = {
+      el: document.querySelector('.btn-up'),
+      show() {
+        this.el.classList.remove('btn-up_hide');
+      },
+      hide() {
+        this.el.classList.add('btn-up_hide');
+      },
+      addEventListener() {
+        window.addEventListener('scroll', () => {
+          const scrollY = window.scrollY || document.documentElement.scrollTop;
+          scrollY > 800 ? this.show() : this.hide();
+        });
+        document.querySelector('.btn-up').onclick = () => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }
+    btnUp.addEventListener();
+  </script>
+    
+    <div class="div-top">
+        <div class="div-top1">
+            <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" class="logo"></a>
+            <img src="{{ url_for('static', filename='img/point.png') }}" class="point">
+            <a class="adress">г. Челябинск, ул. Центральная, дом 155А</a>
+            
+            <div class="div-top-2">
+                <div class="div-top2-1">
+                <span class="span-top-text-number">
+                    <a href="#" class="top-text-number">8 (123) 456-78-90<br></a>
+                </span>
+                <span class="span-top-text-1">
+                    <a class="top-text-1">Звоните, мы сейчас на связи<br></a>
+                </span>
+                <span class="span-top-text-2">
+                    <a class="top-text-2">Работаем ежедневно с 8:00 до 19:00</a>
+                </span>
+            </div>
+        </div>
+        </div>
+        <div class="div-top-info1">
+            <div class="div-top-info2">
+                <div class="container-info">
+                    <a href="#" class="info-1">О компании</a>
+                    <a href="/catalog" class="info-2">Каталог</a>
+                    <a href="/posts" class="info-3">Статьи</a>
+                    <a href="#" class="info-4">Контакты</a>
+                    <a href="#" class="info-5">Прайс-листы</a>
+                </div>
+                <div class="div-top-info2-1">
+                    <div class="div-top-info2-2">
+                        <a href="#"><img class="img-cart" src="{{ url_for('static', filename='img/cart.png') }}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="articles_container">
+        <a class="text-add-article" >Добавление товара</a>
+        <form method="post" enctype="multipart/form-data">
+            <input type="text" name="name" id="name" class="form-article-title" placeholder="Введите название"><br>
+            <input type="text" name="item" id="item" class="form-article-text" placeholder="Введите артикул"><br>
+            <input type="text" name="manufacturer" id="manufacturer" class="form-article-text" placeholder="Введите производителя"><br>
+            <input type="text" name="cost" id="cost" class="form-article-text" placeholder="Введите цену"><br>
+            <textarea name="description" id="description" class="form-article-text" placeholder="Введите описание"></textarea><br>
+            <input type="file" name="image" id="image" class="form-article-image" accept="image/*" required placeholder=""><br>
+            <input type="submit" class="form-article-btn" value="Отправить">
+        </form>
+    </div>
+    
+    
+    <div class="footer">
+        <div class="footer_a">
+            <div class="footer_logo-num">
+                <img class="img-logo-gray" src="{{ url_for('static', filename='img/logo_gray.png') }}"><br><br>
+                <a class="footer-number">8 (123) 456-78-90</a>
+            </div>
+            <div class="footer-info">
+                <a href="#" class="footer-info-1">О компании</a>
+                <a href="#" class="footer-info-2">Фото</a>
+                <a href="#" class="footer-info-3">Статьи</a>
+                <a href="#" class="footer-info-4">Контакты</a>
+                <a href="#" class="footer-info-5">Прайс-листы</a>
+            </div>
+        </div>
+        <div class="footer_b">
+            <div class="footer_ba">
+                <div class="footer-email"><a class="text-footer-email">zakaz@company.ru</a></div>
+                <div class="footer-call-num"><button class="button-footer-call-num" >Заказать звонок</button></div>
+            </div>
+        </div>    
+    </div>
+</body>
+</html>

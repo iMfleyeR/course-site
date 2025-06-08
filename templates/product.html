@@ -1,0 +1,118 @@
+<html lang="ru">
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>{{ catalog.name }}</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="main.js" ></script>
+</head>
+<body>
+    <div class="btn-up btn-up_hide"></div>
+
+  <script>
+  </script>
+    
+    <div class="div-top">
+        <div class="div-top1">
+            <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" class="logo"></a>
+            <img src="{{ url_for('static', filename='img/point.png') }}" class="point">
+            <a class="adress">г. Челябинск, ул. Центральная, дом 155А</a>
+            
+            <div class="div-top-2">
+                <div class="div-top2-1">
+                <span class="span-top-text-number">
+                    <a href="#" class="top-text-number">8 (123) 456-78-90<br></a>
+                </span>
+                <span class="span-top-text-1">
+                    <a class="top-text-1">Звоните, мы сейчас на связи<br></a>
+                </span>
+                <span class="span-top-text-2">
+                    <a class="top-text-2">Работаем ежедневно с 8:00 до 19:00</a>
+                </span>
+            </div>
+        </div>
+        </div>
+        <div class="div-top-info1">
+            <div class="div-top-info2">
+                <div class="container-info">
+                    <a href="#" class="info-1">О компании</a>
+                    <a href="/catalog" class="info-2">Каталог</a>
+                    <a href="#" class="info-3">Статьи</a>
+                    <a href="#" class="info-4">Контакты</a>
+                    <a href="#" class="info-5">Прайс-листы</a>
+                </div>
+                <div class="div-top-info2-1">
+                    <div class="div-top-info2-2">
+                        <a href="/cart"><img class="img-cart" src="{{ url_for('static', filename='img/cart.png') }}"></a>
+                        {% if cart_quantity > 0 %}
+                        <span class="cart-quantity">{{ cart_quantity }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-container">
+        <div class="product-details">
+            <div class="product-details_fir">
+            <div class="product-detail-top">
+                <a href="/catalog" class="back-link">Вернуться в каталог</a>
+                <p class="product-detail-name">{{ catalog.name }}</p>
+            </div>
+            </div>
+            <div class="product-details_fir">
+            <div class="product-details1">
+
+
+                <img class="product-detail-img" src="{{ url_for('static', filename='uploads/' + catalog.image) }}" alt="{{ catalog.name }}">
+            </div>
+            <div class="product-details2">
+                <div class="product-details2_1">
+                    <a class="product-detail-top-text">Характеристики:</a>
+                    <a class="product-detail-info">Артикул: {{ catalog.item }}</a>
+                    <a class="product-detail-info">Производитель: {{ catalog.manufacturer }}</a>
+                    <a class="product-detail-info-a" href="#product-description">Показать описание</a>
+                </div>
+                <div class="product-detail2_21">
+                    <div class="product-details2_22">
+                        <a class="product-detail-cost"> {{ catalog.cost }} ₽</a><br>
+                        <a href="{{ url_for('add_to_cart', product_id=catalog.id) }}"><button type="button" class="product-detail-btn-buy">В корзину</button></a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <p id="product-description" class="product-detail-description">Описание:</p>
+        <p>Здравствуйте! Мы рады, что Вас заинтересовал товар: "{{ catalog.description }}".</p>
+        <p>{{ catalog.name }} {{ catalog.manufacturer }} {{ catalog.item }} доступен под заказ по цене {{ catalog.cost }} рублей в нашей компании. У нас лучшая стоимость на данную категорию!</p>
+        <p>Мы занимаемся оптовой продажей запасных частей для таких автомобилей, как КАМАЗ, МАЗ и остальные, уже несколько лет и за это время заслужили доверие многих клиентов. Являясь дилерами более 300 заводов-производителей, мы предлагаем широкий ассортимент запчастей по выгодным ценам.</p>
+        <p>Купить данный товар можно: оформив заказ в интернет-магазине, отправив заявку по почте, по телефону 8(123) 456-78-90 или в офисе компании</p>
+        <p>Мы — крупные поставщики по всей России и ближнему зарубежью, а для оптовых клиентов у нас действуют специальные условия скидок. Доставка осуществляется во все города России транспортными компаниями: СДЭК, Почта России и другими.</p>
+        <p>Мы всегда готовы обсудить условия сотрудничества и найти оптимальное решение для вашего бизнеса. Если у вас есть вопросы или пожелания, свяжитесь с нами — будем рады помочь в выборе товаров и предоставить всю необходимую информацию!</p>
+        <a href="/product/{{ catalog.slug }}/delete">Удалить товар</a>
+        <a href="/product/{{ catalog.slug }}/update">Редактировать товар</a>
+    </div>
+    <div class="footer">
+        <div class="footer_a">
+            <div class="footer_logo-num">
+                <img class="img-logo-gray" src="{{ url_for('static', filename='img/logo_gray.png') }}"><br><br>
+                <a class="footer-number">8 (123) 456-78-90</a>
+            </div>
+            <div class="footer-info">
+                <a href="#" class="footer-info-1">О компании</a>
+                <a href="#" class="footer-info-2">Фото</a>
+                <a href="/posts" class="footer-info-3">Статьи</a>
+                <a href="#" class="footer-info-4">Контакты</a>
+                <a href="#" class="footer-info-5">Прайс-листы</a>
+            </div>
+        </div>
+        <div class="footer_b">
+            <div class="footer_ba">
+                <div class="footer-email"><a class="text-footer-email">zakaz@company.ru</a></div>
+                <div class="footer-call-num"><button class="button-footer-call-num" >Заказать звонок</button></div>
+            </div>
+        </div>    
+    </div>
+</body>
+</html>

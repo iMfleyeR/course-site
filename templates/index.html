@@ -1,0 +1,267 @@
+<html>
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Сервис Запчасть</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="main.js" ></script>
+</head>
+<body>
+    <div class="btn-up btn-up_hide"></div>
+
+  <script>
+    const btnUp = {
+      el: document.querySelector('.btn-up'),
+      show() {
+        this.el.classList.remove('btn-up_hide');
+      },
+      hide() {
+        this.el.classList.add('btn-up_hide');
+      },
+      addEventListener() {
+        window.addEventListener('scroll', () => {
+          const scrollY = window.scrollY || document.documentElement.scrollTop;
+          scrollY > 800 ? this.show() : this.hide();
+        });
+        document.querySelector('.btn-up').onclick = () => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }
+    btnUp.addEventListener();
+  </script>
+    
+    <div class="div-top">
+        <div class="div-top1">
+            <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" class="logo"></a>
+            <img src="{{ url_for('static', filename='img/point.png') }}" class="point">
+            <a class="adress">г. Челябинск, ул. Центральная, дом 155А</a>
+            
+            <div class="div-top-2">
+                <div class="div-top2-1">
+                <span class="span-top-text-number">
+                    <a href="#" class="top-text-number">8 (123) 456-78-90<br></a>
+                </span>
+                <span class="span-top-text-1">
+                    <a class="top-text-1">Звоните, мы сейчас на связи<br></a>
+                </span>
+                <span class="span-top-text-2">
+                    <a class="top-text-2">Работаем ежедневно с 8:00 до 19:00</a>
+                </span>
+            </div>
+        </div>
+        </div>
+        <div class="div-top-info1">
+            <div class="div-top-info2">
+                <div class="container-info">
+                    <a href="#" class="info-1">О компании</a>
+                    <a href="/catalog" class="info-2">Каталог</a>
+                    <a href="#" class="info-3">Статьи</a>
+                    <a href="#" class="info-4">Контакты</a>
+                    <a href="#" class="info-5">Прайс-листы</a>
+                </div>
+                <div class="div-top-info2-1">
+                    <div class="div-top-info2-2">
+                        <a href="/cart"><img class="img-cart" src="{{ url_for('static', filename='img/cart.png') }}"></a>
+                        {% if cart_quantity > 0 %}
+                        <span class="cart-quantity">{{ cart_quantity }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="general-info-plus">
+        <div class="general-info-plus-in">
+            <span class="general-info">
+            <a class="general-info-1">Профессиональный грузовой автосервис в центре Челябинска</a>
+            </span>
+            <p class="general-info-2">Продажей запчастей наше предприятие занимается с 2003 года и поэтому занимает лидирующие позиции на российском рынке среди своих конкурентов</p>
+            
+            <div class="pluses">
+                <div class="plus1">
+                    <img class="img-check" src="{{ url_for('static', filename='img/check.png') }}">
+                    <div class="div-text-plus1">
+                        <a class="text-plus1">Надежная упаковка и качественная комплектация товара</a>
+                    </div>
+                </div>
+                <div class="plus1">
+                    <img class="img-check" src="{{ url_for('static', filename='img/check.png') }}">
+                    <div class="div-text-plus2">
+                        <a class="text-plus2">Гарантии на весь спектр запчастей</a>
+                    </div>
+                </div>
+                <div class="plus1">
+                    <img class="img-check" src="{{ url_for('static', filename='img/check.png') }}">
+                    <div class="div-text-plus2">
+                        <a class="text-plus3">Выгодные корпоративные предложения</a>
+                    </div>
+                </div>
+            </div>
+            <button class="call-order-button">Заказать звонок</button>
+        </div>
+    </div>
+    <div class="filters">
+        <div class="filters-in">
+            <a class="fast-selection">Быстрый подбор</a>
+            <form action="{{ url_for('catalog') }}" method="GET">
+            <input type="text" class="fast-search" name="search" placeholder="Поиск по артикулу или названию">
+            <a href="#"><button type="submit" class="search-filter">Найти</button></a>
+            </form>
+        </div>
+    </div>
+    <div class="our-items">
+        <div class="div-chapter-product">
+            <a class="chapter-product">Наши товары</a>
+        </div>
+        <div class="items">
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_kraz.png') }}" class="img-initem1"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_gaz.png') }}" class="img-initem2"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_maz.png') }}" class="img-initem3"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_ural.png') }}" class="img-initem4"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_zil.png') }}" class="img-initem5"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_kamaz.png') }}" class="img-initem6"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_uaz.png') }}" class="img-initem7"></div></a>
+            <a><div class="item"><img src="{{ url_for('static', filename='img/logos/logo_ymz.png') }}" class="img-initem8"></div></a>
+        </div>
+    </div>
+    <div class="mailing-section">
+        <div class="in-mailing-section">
+            <a class="mailing-text1">Получайте выгоду!</a><br>
+            <a class="mailing-text2">Узнавайте первыми о самых горячих скидках, новинках и распродажах!</a>
+        </div>
+        <div class="blank-mailing">
+            <input class="input-mailing-name" type=text placeholder="Имя">
+            <input class="input-mailing-mail" type=email placeholder="E-mail">
+            <button class="subscribe-mailing">Подписаться</button>
+        </div>
+    </div>
+    
+    <div class="special-offer">
+        <div class="div-text-special-offer">
+            <a class="text-special-offer">Спец предложения</a>
+        </div>
+        <div class="scroll-special-offer">
+            
+            <div class="offer-container-1">
+                <div class="special-container-1">
+                    <img class="img-camera" src="{{ url_for('static', filename='img/camera.png') }}">
+                </div>
+                <div class="info-special-offer">
+                    <a class="offer-name">Редуктор заднего моста (новый) на 15 отв., 46 зуб. Урал</a><br>
+                    <a class="offer-cost">62000.00₽</a><br>
+                    <button class="button-offer-buy">В корзину</button>
+                </div>
+            </div>
+            
+            
+            <div class="offer-container-2">
+                <div class="special-container-2">
+                    <img class="img-camera" src="{{ url_for('static', filename='img/camera.png') }}">
+                </div>
+                <div class="info-special-offer1">
+                    <a class="offer-name">Диск шарнира переднего моста</a><br>
+                    <a class="offer-cost">900.00₽</a><br>
+                    <button class="button-offer-buy">В корзину</button>
+                </div>
+            </div>
+            
+            
+            <div class="offer-container-3">
+                <div class="special-container-3">
+                    <img class="img-camera" src="{{ url_for('static', filename='img/camera.png') }}">
+                </div>
+                <div class="info-special-offer1">
+                    <a class="offer-name">Колодка рабочего тормоза (пневмотормоза)</a><br>
+                    <a class="offer-cost">2250.00₽</a><br>
+                    <button class="button-offer-buy">В корзину</button>
+                </div>
+            </div>
+            
+            <div class="offer-container-4">
+                <div class="special-container-4">
+                    <img class="img-camera" src="{{ url_for('static', filename='img/camera.png') }}">
+                </div>
+                <div class="info-special-offer1">
+                    <a class="offer-name">Коробка раздаточная в сборе</a><br>
+                    <a class="offer-cost">39000.00₽</a><br>
+                    <button class="button-offer-buy">В корзину</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="our-team">
+        <div class="div-text-our-team">
+            <a class="text-our-team">Наша команда</a>
+        </div>
+        <div class="scroll-team">
+            
+            <div class="scroll-container-1">
+                <div class="team-container-1">
+                    <img class="img-user" src="{{ url_for('static', filename='img/user.png') }}">
+                </div>
+                <div class="info-team">
+                    <a class="team-name">Альберт</a><br>
+                    <a class="team-position">Ген. Директор</a><br>
+                    <a class="team-description">Описание</a>
+                </div>
+            </div>
+            
+            
+            <div class="scroll-container-2">
+                <div class="team-container-2">
+                    <img class="img-user" src="{{ url_for('static', filename='img/user.png') }}">
+                </div>
+                <div class="info-team1">
+                    <a class="team-name">Николай</a><br>
+                    <a class="team-position">Начальник отдела продаж</a><br>
+                    <a class="team-description">Описание</a>
+                </div>
+            </div>
+            
+            
+            <div class="scroll-container-3">
+                <div class="team-container-3">
+                    <img class="img-user" src="{{ url_for('static', filename='img/user.png') }}">
+                </div>
+                <div class="info-team1">
+                    <a class="team-name">Игорь</a><br>
+                    <a class="team-position">Начальник отдела снабжения</a><br>
+                    <a class="team-description">Описание</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+    <div class="footer">
+        <div class="footer_a">
+            <div class="footer_logo-num">
+                <img class="img-logo-gray" src="{{ url_for('static', filename='img/logo_gray.png') }}"><br><br>
+                <a class="footer-number">8 (123) 456-78-90</a>
+            </div>
+            <div class="footer-info">
+                <a href="#" class="footer-info-1">О компании</a>
+                <a href="#" class="footer-info-2">Фото</a>
+                <a href="#" class="footer-info-3">Статьи</a>
+                <a href="#" class="footer-info-4">Контакты</a>
+                <a href="#" class="footer-info-5">Прайс-листы</a>
+            </div>
+        </div>
+        <div class="footer_b">
+            <div class="footer_ba">
+                <div class="footer-email"><a class="text-footer-email">zakaz@company.ru</a></div>
+                <div class="footer-call-num"><button class="button-footer-call-num" >Заказать звонок</button></div>
+            </div>
+        </div>    
+    </div>
+</body>
+</html>

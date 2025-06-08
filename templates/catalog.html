@@ -1,0 +1,217 @@
+<html>
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Каталог</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="main.js" ></script>
+</head>
+<body>
+    <div class="btn-up btn-up_hide"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('#filter-form input[type="checkbox"]');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                    // Автоматически отправляем форму при изменении состояния чекбокса
+                document.getElementById('filter-form').submit();
+            });
+        });
+    });
+
+        // Функция для сброса фильтров
+    function resetFilters(searchQuery) {
+        // Создаем базовый URL с сортировкой по умолчанию (name_asc)
+        let newUrl = "{{ url_for('catalog') }}?sort_by=name_asc";
+
+        // Если есть поисковый запрос, добавляем его
+        if (searchQuery) {
+            newUrl += `&search=${encodeURIComponent(searchQuery)}`;
+        }
+
+        // Перенаправляем на новый URL
+        window.location.href = newUrl;
+    }
+
+    function submitSortForm() {
+        // Получаем форму сортировки
+        const form = document.getElementById('sort-form');
+
+        // Собираем все скрытые поля
+        const hiddenFields = form.querySelectorAll('input[type="hidden"]');
+        let params = [];
+
+        // Добавляем все скрытые поля в параметры
+        hiddenFields.forEach(field => {
+            if (field.value) {
+                params.push(`${field.name}=${encodeURIComponent(field.value)}`);
+            }
+        });
+
+        // Добавляем выбранную сортировку
+        const sortSelect = form.querySelector('select[name="sort_by"]');
+        params.push(`sort_by=${encodeURIComponent(sortSelect.value)}`);
+
+        // Собираем итоговый URL
+        const newUrl = "{{ url_for('catalog') }}?" + params.join('&');
+
+        // Перенаправляем на новый URL
+        window.location.href = newUrl;
+    }
+  </script>
+    
+    <div class="div-top">
+        <div class="div-top1">
+            <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" class="logo"></a>
+            <img src="{{ url_for('static', filename='img/point.png') }}" class="point">
+            <a class="adress">г. Челябинск, ул. Центральная, дом 155А</a>
+            
+            <div class="div-top-2">
+                <div class="div-top2-1">
+                <span class="span-top-text-number">
+                    <a href="#" class="top-text-number">8 (123) 456-78-90<br></a>
+                </span>
+                <span class="span-top-text-1">
+                    <a class="top-text-1">Звоните, мы сейчас на связи<br></a>
+                </span>
+                <span class="span-top-text-2">
+                    <a class="top-text-2">Работаем ежедневно с 8:00 до 19:00</a>
+                </span>
+            </div>
+        </div>
+        </div>
+        <div class="div-top-info1">
+            <div class="div-top-info2">
+                <div class="container-info">
+                    <a href="#" class="info-1">О компании</a>
+                    <a href="/catalog" class="info-2">Каталог</a>
+                    <a href="#" class="info-3">Статьи</a>
+                    <a href="#" class="info-4">Контакты</a>
+                    <a href="#" class="info-5">Прайс-листы</a>
+                </div>
+                <div class="div-top-info2-1">
+                    <div class="div-top-info-login"></div>
+                    <div class="div-top-info2-2">
+                        <a href="/cart"><img class="img-cart" src="{{ url_for('static', filename='img/cart.png') }}"></a>
+                        {% if cart_quantity > 0 %}
+                        <span class="cart-quantity">{{ cart_quantity }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="catalog_container-text"><a class="catalog-top-text">Каталог</a></div>
+    <div class="catalog-container">
+        <div class="catalog-filter-top-container">
+            <div class="catalog-filter-top-container-text">
+                <a class="catalog-filter-top-text">Производитель</a>
+            </div>
+            <form id="filter-form" class="filter-form" action="{{ url_for('catalog') }}" method="GET">
+                {% if search_query %}
+                <input type="hidden" name="search" value="{{ search_query }}">
+                {% endif %}
+
+                {% if sort_by %}
+                <input type="hidden" name="sort_by" value="{{ sort_by }}">
+                {% endif %}
+
+                {% for manufacturer in manufacturers %}
+                <label>
+                <div class="catalog-filter-container">
+                    <input type="checkbox" class="catalog-filter-checkbox" name="manufacturer" value="{{ manufacturer }}" {% if manufacturer in selected_manufacturers %}checked{% endif %}><a class="catalog-filter-text">{{ manufacturer }}</a>
+                </div>
+                </label>
+                {% endfor %}
+                <button type="button" class="filter-form-reset-btn" onclick="resetFilters('{{ search_query }}', '{{ sort_by }}')">Сбросить фильтры</button>
+
+            </form>
+        </div>
+        <div class="catalog-products-container">
+            <div class="top-catalog-container">
+                <div class="fast-search-catalog-container">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" class="fast-search-catalog" name="search" placeholder="Поиск по артикулу или названию" value="{{ search_query }}">
+
+                        {% for manufacturer in selected_manufacturers %}
+                        <input type="hidden" name="manufacturer" value="{{ manufacturer }}">
+                        {% endfor %}
+
+                        <input type="hidden" name="sort_by" value="name_asc">
+
+                        <button class="search-btn-catalog"><img class="search-btn-catalog-icon" src="{{ url_for('static', filename='img/search.png') }}" alt=""></button>
+                    </form>
+                </div>
+
+                <div class="top-catalog-container-2">
+                    <form id="sort-form" action="{{ url_for('catalog') }}" method="GET">
+
+                    <input type="hidden" name="search" value="{{ search_query }}">
+
+                    {% for manufacturer in selected_manufacturers %}
+                    <input type="hidden" name="manufacturer" value="{{ manufacturer }}">
+                    {% endfor %}
+
+                    <select name="sort_by" id="sort-select" class="sort-search-catalog" onchange="submitSortForm()">
+                        <option value="name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>По алфавиту А-Я</option>
+                        <option value="name_desc" {% if sort_by == 'name_desc' %}selected{% endif %}>По алфавиту Я-А</option>
+                        <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Сначала дешевые</option>
+                        <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Сначала дорогие</option>
+                    </select>
+                    </form>
+                </div>
+            </div>
+            {% if catalogs %}
+                {% for catalog in catalogs %}
+                    <div class="container-product">
+                        <img src="{{ url_for('static', filename='uploads/' + catalog.image) }}" alt="{{ catalog.name }}" class="product-img" decoding="sync">
+                        <div class="container-product-info">
+                            <a href="/product/{{ catalog.slug }}" class="product-name">{{ catalog.name }}</a>
+                            <a class="product-item">Артикул: {{ catalog.item }}</a>
+                            <a class="product-manufacturer">Производитель: {{ catalog.manufacturer }}</a>
+                        </div>
+                        <div class="container-product-info2">
+                            <div class="container-product-info3">
+                            <p class="product-cost">{{ catalog.cost }} ₽</p>
+                            <a href="{{ url_for('add_to_cart', product_id=catalog.id) }}"><button type="button" class="btn-product-buy">В корзину</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-result-message-container">
+                    <a class="no-result-message">Ничего не найдено</a>
+                </div>
+            {% endif %}
+            <br><br>
+            <a href="/create-product" class="add-new-product" >Добавить новый товар</a>
+        </div>
+    </div>
+    
+    
+    <div class="footer">
+        <div class="footer_a">
+            <div class="footer_logo-num">
+                <img class="img-logo-gray" src="{{ url_for('static', filename='img/logo_gray.png') }}"><br><br>
+                <a class="footer-number">8 (123) 456-78-90</a>
+            </div>
+            <div class="footer-info">
+                <a href="#" class="footer-info-1">О компании</a>
+                <a href="#" class="footer-info-2">Фото</a>
+                <a href="#" class="footer-info-3">Статьи</a>
+                <a href="#" class="footer-info-4">Контакты</a>
+                <a href="#" class="footer-info-5">Прайс-листы</a>
+            </div>
+        </div>
+        <div class="footer_b">
+            <div class="footer_ba">
+                <div class="footer-email"><a class="text-footer-email">zakaz@company.ru</a></div>
+                <div class="footer-call-num"><button class="button-footer-call-num" >Заказать звонок</button></div>
+            </div>
+        </div>    
+    </div>
+</body>
+</html>
